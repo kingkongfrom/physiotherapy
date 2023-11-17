@@ -1,0 +1,257 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+
+    --color-Slate-50: #f8fafc;
+    --color-Slate-100: #f1f5f9;
+    --color-Slate-200: #e2e8f0;
+    --color-Slate-300: #cbd5e1;
+    --color-Slate-400: #94a3b8;
+    --color-Slate-500: #64748b;
+    --color-Slate-600: #475569;
+    --color-Slate-700: #334155;
+    --color-Slate-800: #1e293b;
+    --color-Slate-900: #0f172a;
+    --color-Slate-950: #020617;
+
+    --color-blue-50: #eff6ff;
+    --color-blue-100: #dbeafe;
+    --color-blue-200: #bfdbfe;
+    --color-blue-300: #93c5fd;
+    --color-blue-400: #60a5fa;
+    --color-blue-500: #3b82f6;
+    --color-blue-600: #2563eb;
+    --color-blue-700: #1d4ed8;
+    --color-blue-800: #1e40af;
+    --color-blue-900: #1e3a8a;
+    --color-blue-950: #172554;
+
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 65.5%;
+}
+
+.btn {
+    padding: 0.7rem 1.4rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--color-blue-400);
+}
+
+.btn-primary:hover {
+    color: white;
+    background-color: var(--color-blue-500);
+}
+
+.btn-secondary {
+    background-color: var(--color-Slate-300);
+    color: #111;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-Slate-400);
+    color: white;
+    box-shadow: inset 0 0 1px #1d5064;
+}
+
+.disabled {
+    opacity: 0.5; /* Reduced opacity */
+    background-color: #bbb;
+    cursor: not-allowed /* Cursor style indicating non-interactivity */
+}
+
+.disabled:hover {
+    color: inherit;
+    opacity: 0.5; /* Reduced opacity */
+    background-color: #bbb;
+    cursor: not-allowed /* Cursor style indicating non-interactivity */
+}
+
+.booking-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 5rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.time-slot-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 20rem;
+    gap: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.time-slot {
+    background-color: var(--color-blue-300);
+    border-radius: 5px;
+    padding: 0.8rem 1.6rem;
+    font-size: 0.9rem;
+    transition: all 0.1s;
+}
+
+.time-slot:hover {
+    background-color: var(--color-blue-400);
+    box-shadow: inset 0 0 3px #1d5064;
+}
+
+.time-slot:focus {
+    background-color: #b3d3e0;
+    box-shadow: inset 0 0 6px #1d5064;
+}
+
+.booked {
+    /* Styles for booked time slots */
+    background-color: #525252 !important;
+    color: #f3f0f0;
+    cursor: not-allowed;
+    box-shadow: inset 0 0 8px #d93f2a;
+    opacity: 0.6; /* Reduces opacity for booked slots */
+}
+
+.booked:hover {
+    cursor: not-allowed;
+    box-shadow: inset 0 0 8px #d93f2a;
+    opacity: 0.6; /* Reduces opacity for booked slots */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 4.6rem;
+}
+
+.rdp {
+    font-size: 140%;
+    margin-bottom: 3rem;
+}
+
+.rdp-day_selected {
+    background-color: var(--color-blue-500);
+}
+
+.rdp-button:hover {
+    cursor: pointer;
+    background-color: var(--color-blue-200)!important;
+}
+
+.rdp-day_selected:hover {
+    background-color: var(--color-blue-500);
+}
+
+.patient-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+input {
+    font-size: 1rem;
+    border: 1px solid #333333;
+    border-radius: 4px;
+}
+
+
+/****************************/
+.patient-form {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    width: 20rem;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5em;
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+    outline: none;
+    border-color: #5d92a6;
+}
+
+label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    color: #999;
+    font-size: 16px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+    top: -8px;
+    font-size: 12px;
+    color: #5d92a6;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/************************************/
+/* CALENDAR */
+/************************************/
+
+._container_fw72z_1 {
+    margin: 0!important;
+}
+
+/************************************/
+/* NAVIGATION */
+/************************************/
+
+
+.notification-badge {
+    background-color: red;
+    padding: 5px;
+    border-radius: 50%;
+    position: relative;
+    top: 1.4rem;
+    left: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.8rem;
+    color: white;
+}
