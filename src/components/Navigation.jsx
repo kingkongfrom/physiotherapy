@@ -16,7 +16,11 @@ function classNames(...classes) {
 
 export default function Navigation() {
     const location = useLocation();
-    const [appointmentCount, setAppointmentCount] = useState(0);
+
+    const [appointmentsForToday, setAppointmentsForToday] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [isNavOpen, setIsNavOpen] = useState(false);
+    const appointmentCount = appointmentsForToday.length;
 
     function isActiveRoute(href, location) {
         return location.pathname === href;
@@ -38,31 +42,34 @@ export default function Navigation() {
             return;
         }
 
-        const count = data ? data.length : 0; // Retrieve the count of appointments for today
-        setAppointmentCount(count);
+        setAppointmentsForToday(data || []);
     };
 
     useEffect(() => {
-        getAppointmentsForToday();
-    }, [appointmentCount]);
+        getAppointmentsForToday(); // Fetch appointments for today on component mount
+    }, []);
 
+    const handleClick = () => {
+        setShowDropdown(!showDropdown); // Toggle dropdown visibility on click
+    };
 
     return (
         <nav>
-            <Disclosure as="nav" className="bg-gray-800 ">
+            <Disclosure as="nav" className="bg-gray-800" >
                 {({open}) => (
                     <Fragment>
                         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                             <div className="relative flex h-16 items-center justify-between">
                                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                     <Disclosure.Button
+                                        onClick={() => setIsNavOpen(!isNavOpen)}
                                         className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                                        <span className="absolute -inset-0.5"/>
+                                        <span className="absolute -inset-0.5" />
                                         <span className="sr-only">Open main menu</span>
                                         {open ? (
-                                            <XMarkIcon className="block h-6 w-6" aria-hidden="true"/>
+                                            <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                                         ) : (
-                                            <Bars3Icon className="block h-6 w-6" aria-hidden="true"/>
+                                            <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                                         )}
                                     </Disclosure.Button>
                                 </div>
@@ -95,22 +102,43 @@ export default function Navigation() {
                                 </div>
                                 <div
                                     className="absolute inset-y-0 right-0 flex gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                    <button
-                                        type="button"
-                                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white
-                                    focus:outline-none  "
-                                    >
-                                        <span className="absolute -inset-1.5">
-                                            <span
-                                                className="notification-badge"
-                                            >
-                                                    {appointmentCount}
-                                            </span>
-                                        </span>
 
-                                        <span className="sr-only">View notifications</span>
-                                        <BellIcon className="h-7 w-7" aria-hidden="true"/>
-                                    </button>
+
+                                    <div>
+                                        <button
+                                            type="button"
+                                            className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none"
+                                            onClick={handleClick}
+                                        >
+                                            <span className="absolute -inset-1.5">
+                                                <span className="notification-badge">
+                                                    {appointmentCount}
+                                                </span>
+                                            </span>
+                                            <span className="sr-only">View notifications</span>
+                                            <BellIcon className="h-7 w-7" aria-hidden="true"/>
+                                        </button>
+
+                                        {showDropdown && (
+                                            <div className="dropdown">
+                                                <p className="text-md font-bold">{"citas para hoy".toUpperCase()}:</p>
+                                                <div className="divider"></div>
+                                                <ul>
+                                                    {appointmentsForToday.map((appointment, index) => (
+                                                        <li key={index}>
+                                                            <div className="dropdown-list">
+                                                                <span
+                                                                    className="dropdown-time">{appointment.time.slice(0, -3)}</span>
+                                                                <span
+                                                                    className="dropdown-patient-name">{appointment.fullName}</span>
+                                                            </div>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+
                                     <NavLink
                                         to="/calendar"
                                         className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"

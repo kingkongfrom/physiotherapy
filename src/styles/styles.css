@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-
     --color-Slate-50: #f8fafc;
     --color-Slate-100: #f1f5f9;
     --color-Slate-200: #e2e8f0;
@@ -27,7 +26,6 @@
     --color-blue-800: #1e40af;
     --color-blue-900: #1e3a8a;
     --color-blue-950: #172554;
-
 }
 
 * {
@@ -123,6 +121,12 @@ body {
 .time-slot:focus {
     background-color: #b3d3e0;
     box-shadow: inset 0 0 6px #1d5064;
+}
+
+/* Hide the cells for Sundays */
+.hidden-sunday {
+    display: none !important;
+    cursor: not-allowed;
 }
 
 .booked {
@@ -232,8 +236,22 @@ input:not(:placeholder-shown) ~ label {
 /************************************/
 
 ._container_fw72z_1 {
-    margin: 0!important;
+    margin: 10px 0!important;
+    height: 100vh!important;
 }
+
+.fc-toolbar-title {
+    width: 100%;
+    font-weight: 600;
+    font-size: 0.7rem!important;
+    color: var(--color-Slate-900)!important;
+}
+
+.fc-dayGridMonth-view, .fc-view, .fc-daygrid {
+    height: 100vh!important;
+    padding-bottom: 20px!important;
+}
+
 
 /************************************/
 /* NAVIGATION */
@@ -241,10 +259,10 @@ input:not(:placeholder-shown) ~ label {
 
 
 .notification-badge {
+    position: relative;
     background-color: red;
     padding: 5px;
     border-radius: 50%;
-    position: relative;
     top: 1.4rem;
     left: 1.6rem;
     display: flex;
@@ -254,4 +272,37 @@ input:not(:placeholder-shown) ~ label {
     height: 1.2rem;
     font-size: 0.8rem;
     color: white;
+}
+
+.dropdown {
+    position: absolute;
+    top: 4rem;
+    right: 0.1rem;
+    width: 200px;
+    z-index: 100;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-list {
+    margin-top: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+.dropdown-time {
+    font-weight: bold;
+}
+
+.dropdown-patient-name {
+    font-weight: 500;
+}
+
+.divider {
+    width: 100%;
+    border-bottom: 1px solid var(--color-blue-950);
+    margin-bottom: 10px;
 }

@@ -14,7 +14,10 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate }) => {
         return isPast;
     };
 
-
+    // Function to check if a day is Sunday (0 represents Sunday)
+    const isSunday = (day) => {
+        return day.getDay() === 0;
+    };
 
     return (
         <div>
@@ -22,7 +25,7 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate }) => {
             <DayPicker
                 selected={selectedDate}
                 onDayClick={handleDateChange}
-                disabled={isPastDay} // Pass a custom function to disable past days
+                disabled={(day) => isPastDay(day) || isSunday(day)} // Disable past days and Sundays
             />
         </div>
     );
