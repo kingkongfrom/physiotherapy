@@ -2,6 +2,7 @@ import supabase from "../services/supabase";
 import {Fragment, useEffect, useState} from 'react';
 import {Disclosure, Menu, Transition} from '@headlessui/react';
 import {Bars3Icon, BellIcon, XMarkIcon} from '@heroicons/react/24/outline';
+import {HiLogin} from "react-icons/hi";
 import {HiCalendarDays} from 'react-icons/hi2';
 import {NavLink, useLocation} from 'react-router-dom';
 
@@ -14,7 +15,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function Navigation() {
+export default function Navigation({token}) {
     const location = useLocation();
 
     const [appointmentsForToday, setAppointmentsForToday] = useState([]);
@@ -55,7 +56,7 @@ export default function Navigation() {
 
     return (
         <nav>
-            <Disclosure as="nav" className="bg-gray-800" >
+            <Disclosure as="nav" className="bg-gray-800">
                 {({open}) => (
                     <Fragment>
                         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -64,12 +65,12 @@ export default function Navigation() {
                                     <Disclosure.Button
                                         onClick={() => setIsNavOpen(!isNavOpen)}
                                         className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                                        <span className="absolute -inset-0.5" />
+                                        <span className="absolute -inset-0.5"/>
                                         <span className="sr-only">Open main menu</span>
                                         {open ? (
-                                            <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                                            <XMarkIcon className="block h-6 w-6" aria-hidden="true"/>
                                         ) : (
-                                            <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                                            <Bars3Icon className="block h-6 w-6" aria-hidden="true"/>
                                         )}
                                     </Disclosure.Button>
                                 </div>
@@ -105,6 +106,7 @@ export default function Navigation() {
 
 
                                     <div>
+                                        {token && (
                                         <button
                                             type="button"
                                             className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none"
@@ -118,6 +120,7 @@ export default function Navigation() {
                                             <span className="sr-only">View notifications</span>
                                             <BellIcon className="h-7 w-7" aria-hidden="true"/>
                                         </button>
+                                        )}
 
                                         {showDropdown && (
                                             <div className="dropdown">
@@ -138,7 +141,7 @@ export default function Navigation() {
                                             </div>
                                         )}
                                     </div>
-
+                                    {token && (
                                     <NavLink
                                         to="/calendar"
                                         className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -147,17 +150,32 @@ export default function Navigation() {
                                         <span className="sr-only">Calendar</span>
                                         <HiCalendarDays className="h-7 w-7" aria-hidden="true"/>
                                     </NavLink>
+                                    )}
+
+
                                     <Menu as="div" className="relative ml-3">
-                                        <Menu.Button
-                                            className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                            <span className="absolute -inset-1.5"/>
-                                            <span className="sr-only">Open user menu</span>
-                                            <img
-                                                className="h-8 w-8 rounded-full object-cover"
-                                                src="https://fqpnunykkdxvsmgpebdq.supabase.co/storage/v1/object/sign/avatars/prix.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL3ByaXguanBnIiwiaWF0IjoxNzAwMDc0MTE3LCJleHAiOjE3MzE2MTAxMTd9.intS8AOkwKKiQm-snz2t7CM0_ov2uduyDq3mDPywS_o&t=2023-11-15T18%3A53%3A09.368Z"
-                                                alt="Doctora Priscilla Rodriguez"
-                                            />
-                                        </Menu.Button>
+
+
+                                        {token ? (
+                                            <Menu.Button
+                                                className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                                <span className="absolute -inset-1.5"/>
+                                                <span className="sr-only">Open user menu</span>
+                                                <div>
+                                                    <img
+                                                        className="h-8 w-8 rounded-full object-cover"
+                                                        src="https://fqpnunykkdxvsmgpebdq.supabase.co/storage/v1/object/sign/avatars/prix.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL3ByaXguanBnIiwiaWF0IjoxNzAwMDc0MTE3LCJleHAiOjE3MzE2MTAxMTd9.intS8AOkwKKiQm-snz2t7CM0_ov2uduyDq3mDPywS_o&t=2023-11-15T18%3A53%3A09.368Z"
+                                                        alt="Doctora Priscilla Rodriguez"
+                                                    />
+                                                </div>
+                                            </Menu.Button>
+                                        ) : (
+                                            <NavLink to="/login" className="text-gray-300 hover:text-white">
+                                                <HiLogin className="h-8 w-8" aria-hidden="true"/>
+                                            </NavLink>
+                                        )}
+
+
                                         <Transition
                                             as={Fragment}
                                             enter="transition ease-out duration-100"

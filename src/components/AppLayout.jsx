@@ -1,10 +1,10 @@
 import Navigation from "./Navigation.jsx";
 import {Outlet} from "react-router-dom";
 
-const AppLayout = () => {
+const AppLayout = ({ token }) => {
     return (
         <div>
-            <Navigation/>
+            <Navigation token={token}/>
             <Outlet/>
         </div>
     );

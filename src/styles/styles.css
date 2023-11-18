@@ -306,3 +306,54 @@ input:not(:placeholder-shown) ~ label {
     border-bottom: 1px solid var(--color-blue-950);
     margin-bottom: 10px;
 }
+
+/************************************/
+/* AUTH LOGIN */
+/************************************/
+
+/* Basic styles for input and label */
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+/* Styles for placeholder transition */
+.active + label,
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    position: absolute;
+    bottom: 30px;
+    font-size: 12px;
+    color: #5d92a6;
+}
+
+/* Placeholder label when it's up */
+.up {
+    bottom: 30px;
+    font-size: 12px;
+    color: #5d92a6;
+}
+
+
+.login-title {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 2rem;
+}
