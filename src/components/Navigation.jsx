@@ -4,7 +4,7 @@ import {Disclosure, Menu, Transition} from '@headlessui/react';
 import {Bars3Icon, BellIcon, XMarkIcon} from '@heroicons/react/24/outline';
 import {HiLogin} from "react-icons/hi";
 import {HiCalendarDays} from 'react-icons/hi2';
-import {NavLink, useLocation} from 'react-router-dom';
+import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 
 const navigation = [
     {name: 'Inicio', href: '/', current: true},
@@ -15,8 +15,9 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function Navigation({token}) {
+export default function Navigation({ token, handleLogout }) {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [appointmentsForToday, setAppointmentsForToday] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -54,6 +55,12 @@ export default function Navigation({token}) {
         setShowDropdown(!showDropdown); // Toggle dropdown visibility on click
     };
 
+    const onLogout = () => {
+        handleLogout(); // Call the handleLogout function from props
+        sessionStorage.removeItem("token"); // Remove token from sessionStorage
+        navigate("/"); // Redirect to the home page or another appropriate route
+    };
+
     return (
         <nav>
             <Disclosure as="nav" className="bg-gray-800">
@@ -86,24 +93,31 @@ export default function Navigation({token}) {
                                     <div className="hidden sm:ml-6 sm:block ">
                                         <div className="flex space-x-4 ">
                                             {navigation.map((item) => (
-                                                <NavLink
-                                                    key={item.name}
-                                                    to={item.href}
-                                                    className={`rounded-md px-3 py-2 text-sm font-medium ${
-                                                        isActiveRoute(item.href, location)
-                                                            ? 'bg-gray-900 text-white'
-                                                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                                                    }`}
-                                                >
-                                                    {item.name}
-                                                </NavLink>
+                                                // Render links based on token presence
+                                                (item.name !== 'Profile' && item.name !== 'Settings') ||
+                                                (item.name === 'Profile' && token) ||
+                                                (item.name === 'Settings' && token) ? (
+                                                    <NavLink
+                                                        key={item.name}
+                                                        to={item.href}
+                                                        className={`
+                                    rounded-md px-3 py-2 text-sm font-medium 
+                                    ${
+                                                            isActiveRoute(item.href, location)
+                                                                ? 'bg-gray-900 text-white'
+                                                                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                                                        }`
+                                                        }
+                                                    >
+                                                        {item.name}
+                                                    </NavLink>
+                                                ) : null
                                             ))}
                                         </div>
                                     </div>
                                 </div>
                                 <div
                                     className="absolute inset-y-0 right-0 flex gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
 
                                     <div>
                                         {token && (
@@ -141,6 +155,7 @@ export default function Navigation({token}) {
                                             </div>
                                         )}
                                     </div>
+
                                     {token && (
                                     <NavLink
                                         to="/calendar"
@@ -171,10 +186,9 @@ export default function Navigation({token}) {
                                             </Menu.Button>
                                         ) : (
                                             <NavLink to="/login" className="text-gray-300 hover:text-white">
-                                                <HiLogin className="h-8 w-8" aria-hidden="true"/>
+                                                Login <HiLogin className="h-6 w-6" aria-hidden="true"/>
                                             </NavLink>
                                         )}
-
 
                                         <Transition
                                             as={Fragment}
@@ -205,8 +219,9 @@ export default function Navigation({token}) {
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     <NavLink
-                                                        to="/signout"
-                                                        className={classNames('block px-4 py-2 text-sm text-gray-700', location.pathname === '/signout' ? 'bg-gray-100' : '')}
+                                                        to="/"
+                                                        onClick={onLogout}
+                                                        className="block px-4 py-2 text-sm text-gray-700"
                                                     >
                                                         Sign out
                                                     </NavLink>

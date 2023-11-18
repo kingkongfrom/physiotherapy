@@ -1,4 +1,4 @@
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AppLayout from "./components/AppLayout.jsx";
 import Homepage from "./pages/Homepage.jsx";
@@ -9,41 +9,35 @@ import Login from "./pages/auth/Login.jsx";
 import Profile from "./pages/staff/Profile";
 
 function App() {
-    const [token, setToken] = useState(false);
-
-    if (token) sessionStorage.setItem("token", JSON.stringify(token));
+    const [token, setToken] = useState(null); // Initialize with null
 
     useEffect(() => {
-        if (sessionStorage.getItem("token")) {
-            let data = JSON.parse(sessionStorage.getItem("token"));
-            setToken(data);
+        const storedToken = sessionStorage.getItem("token");
+        if (storedToken) {
+            const parsedToken = JSON.parse(storedToken);
+            setToken(parsedToken);
         }
-    }, []);
+    }, []); // Run once on initial mount
 
     const requireAuth = (token) => {
-        return token ? true : false;
+        return !!token; // Convert to boolean, true if token exists
     };
 
     const handleLogout = () => {
-        setToken(null); // Update the token state to null
+        sessionStorage.removeItem("token"); // Remove token from sessionStorage
+        setToken(null); // Update state to null upon logout
     };
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<AppLayout token={token}/>}>
+                <Route element={<AppLayout token={token} handleLogout={handleLogout} />}>
                     <Route path="/" element={<Homepage />} />
                     <Route path="/booking" element={<Booking />} />
                     <Route path="/calendar" element={<AppointmentsCalendar />} />
                     <Route path="/sign-up" element={<SignUp />} />
-                    <Route
-                        path="/login"
-                        element={<Login setToken={setToken} />}
-                    />
-                    <Route
-                        path="/profile"
-                        element={requireAuth(token) ? <Profile token={token} handleLogout={handleLogout}/> : <Navigate to="/login" />}
-                    />
+                    <Route path="/login" element={<Login setToken={setToken} />} />
+                    <Route path="/profile" element={requireAuth(token) ? <Profile token={token} handleLogout={handleLogout} /> : <Navigate to="/login" />} />
                 </Route>
             </Routes>
         </BrowserRouter>
